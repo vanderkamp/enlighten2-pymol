@@ -215,7 +215,7 @@
      <item row="7" column="1" colspan="2">
       <widget class="QCheckBox" name="structCheckBox">
        <property name="text">
-        <string>Run equilibration (struct.py)</string>
+        <string>Run equilibration</string>
        </property>
       </widget>
      </item>
