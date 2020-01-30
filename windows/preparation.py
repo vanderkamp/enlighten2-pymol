@@ -67,6 +67,8 @@ class PreparationTab(ManagedWindow):
         controller.bind_lineEdit('prep.system_name', self.systemNameEdit)
         controller.bind_checkBox('prep.relax', self.structCheckBox)
 
+        controller.update('prep.relax', True)
+
         prep_advanced = self.window_manager['prep_advanced']
         self.refreshObjectsButton.clicked.connect(self.setup_objects_list)
         self.advancedOptionsButton.clicked.connect(prep_advanced.show)
