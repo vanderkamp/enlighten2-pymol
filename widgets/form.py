@@ -56,5 +56,5 @@ class Form:
 
     @staticmethod
     def error_message(errors):
-        return "The following errors were encountered:\n" \
-               "{}".format('\n'.join(['• '+error for error in errors]))
+        return ("The following errors were encountered:\n" +
+                '\n'.join(['• '+error for error in errors]))
