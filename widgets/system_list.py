@@ -7,7 +7,7 @@ class SystemList(QtWidgets.QListWidget):
     unselected = QtCore.pyqtSignal()
 
     def __init__(self, *args):
-        super().__init__(*args)
+        super(SystemList, self).__init__(*args)
         self.directory = None
         self.itemSelectionChanged.connect(self._on_select)
 
@@ -42,7 +42,7 @@ class SystemItem(QtWidgets.QListWidgetItem):
 
     def __init__(self, path):
         self.name = os.path.basename(path)
-        super().__init__(self.name)
+        super(SystemItem, self).__init__(self.name)
         self.tag = _system_tag(path)
         self.setBackground(self.BACKGROUND_DICT[self.tag])
 

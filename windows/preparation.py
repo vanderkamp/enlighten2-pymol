@@ -12,7 +12,7 @@ class PreparationTab(ManagedWindow):
 
     def __init__(self, name, window_manager):
         path = os.path.join(os.path.dirname(__file__), 'preparation.ui')
-        super().__init__(name, path, window_manager)
+        super(PreparationTab, self).__init__(name, path, window_manager)
         self.setup_file_selectors()
         self.setup_radio_buttons()
         self.setup_objects_list()

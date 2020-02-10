@@ -7,17 +7,19 @@ import string
 class DockerProcess(QtCore.QProcess):
 
     def __init__(self):
-        super().__init__()
+        super(DockerProcess, self).__init__()
         self._name = get_random_name()
 
     def start(self, working_dir, command):
-        super().start(docker_command(working_dir, command, self._name))
+        super(DockerProcess, self).start(
+            docker_command(working_dir, command, self._name)
+        )
 
     def terminate(self):
         kill_process = QtCore.QProcess()
         kill_process.start("docker kill {}".format(self._name))
         kill_process.waitForFinished()
-        super().terminate()
+        super(DockerProcess, self).terminate()
 
 
 def get_random_name():

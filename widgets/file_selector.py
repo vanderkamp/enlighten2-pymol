@@ -6,7 +6,7 @@ from validators import FileValidator, DirectoryValidator
 class FileSelector(QtWidgets.QWidget):
 
     def __init__(self, *args):
-        super().__init__(*args)
+        super(FileSelector, self).__init__(*args)
 
         ui_file = os.path.join(os.path.dirname(__file__), 'file_selector.ui')
         uic.loadUi(ui_file, self)

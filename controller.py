@@ -234,4 +234,4 @@ class EnlightenController(PyQtController):
                 on_finished()
 
         process.finished.connect(finished_callback)
-        terminal.exec()
+        terminal.exec_()

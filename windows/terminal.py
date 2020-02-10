@@ -5,7 +5,7 @@ import os
 class TerminalWindow(QtWidgets.QDialog):
 
     def __init__(self, process, title):
-        super().__init__()
+        super(TerminalWindow, self).__init__()
         path = os.path.join(os.path.dirname(__file__), 'terminal.ui')
         uic.loadUi(path, self)
         self.setWindowTitle(title)

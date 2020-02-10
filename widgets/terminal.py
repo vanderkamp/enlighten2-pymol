@@ -4,7 +4,7 @@ from qt_wrapper import QtWidgets
 class Terminal(QtWidgets.QTextEdit):
 
     def __init__(self, *args):
-        super().__init__(*args)
+        super(Terminal, self).__init__(*args)
         self.process = None
         self.setReadOnly(True)
         self.setStyleSheet("Terminal {background-color: #000000;}")

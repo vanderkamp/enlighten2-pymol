@@ -7,7 +7,7 @@ class PreparationAdvancedWindow(ManagedWindow):
 
     def __init__(self, name, window_manager):
         path = os.path.join(os.path.dirname(__file__), 'preparation_advanced.ui')
-        super().__init__(name, path, window_manager)
+        super(PreparationAdvancedWindow, self).__init__(name, path, window_manager)
         self.setFixedSize(self.size())
         self.phEdit.setValidator(QtGui.QDoubleValidator(0.0, 14.0, 1, self.phEdit))
         self.sphereSizeEdit.setValidator(QtGui.QIntValidator())

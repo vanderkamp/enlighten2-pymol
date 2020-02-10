@@ -8,7 +8,7 @@ class DynamicsTab(ManagedWindow):
 
     def __init__(self, name, window_manager, main):
         path = os.path.join(os.path.dirname(__file__), 'dynamics.ui')
-        super().__init__(name, path, window_manager)
+        super(DynamicsTab, self).__init__(name, path, window_manager)
         self.directorySelector.set_directory_mode(True)
         self.directorySelector.lineEdit.textChanged.connect(self.systemList.set_directory)
         self.systemList.selected.connect(self.select_system)

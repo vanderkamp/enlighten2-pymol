@@ -4,7 +4,7 @@ from qt_wrapper import QtWidgets
 class ValidatedLineEdit(QtWidgets.QLineEdit):
 
     def __init__(self, *args):
-        super().__init__(*args)
+        super(ValidatedLineEdit, self).__init__(*args)
         self.pristine = True
         self.validator = None
         self.textChanged.connect(self.on_change)

@@ -6,7 +6,7 @@ from validators import XYZValidator
 class AtomSelector(QtWidgets.QWidget):
 
     def __init__(self, *args):
-        super().__init__(*args)
+        super(AtomSelector, self).__init__(*args)
 
         ui_file = os.path.join(os.path.dirname(__file__), 'atom_selector.ui')
         uic.loadUi(ui_file, self)

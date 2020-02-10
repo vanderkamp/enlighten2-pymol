@@ -24,7 +24,7 @@ class WindowManager:
 class ManagedWindow(QtWidgets.QWidget):
 
     def __init__(self, name, ui, window_manager):
-        super().__init__()
+        super(ManagedWindow, self).__init__()
         self.setWindowFlag(QtCore.Qt.Tool)
         self.window_manager = window_manager
         window_manager.add(name, uic.loadUi(ui, self))
