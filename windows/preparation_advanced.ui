@@ -7,15 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>436</width>
-    <height>76</height>
+    <height>105</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Advanced</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="pHandSphereLayout">
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="phLabel">
        <property name="text">
@@ -26,26 +26,23 @@
      <item>
       <widget class="QLineEdit" name="phEdit">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>5</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
+       <property name="maximumSize">
         <size>
-         <width>200</width>
-         <height>20</height>
+         <width>68</width>
+         <height>16777215</height>
         </size>
        </property>
-      </spacer>
+      </widget>
      </item>
+    </layout>
+   </item>
+   <item row="1" column="1">
+    <layout class="QHBoxLayout" name="pHandSphereLayout">
      <item>
       <widget class="QLabel" name="SphereSizeLabel">
        <property name="text">
@@ -86,6 +83,12 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>68</width>
+         <height>16777215</height>
+        </size>
+       </property>
       </widget>
      </item>
      <item>
@@ -97,7 +100,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="1" colspan="2">
+   <item row="0" column="1">
     <widget class="AtomSelector" name="atomSelector">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -107,13 +110,19 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="0" column="0">
     <widget class="QLabel" name="atomLabel">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>96</width>
+       <height>16777215</height>
+      </size>
      </property>
      <property name="text">
       <string>Sphere center</string>
