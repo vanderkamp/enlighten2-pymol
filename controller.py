@@ -72,7 +72,7 @@ class EnlightenController(PyQtController):
     @staticmethod
     def open_enlighten_website():
         import webbrowser
-        webbrowser.open_new("https://github.com/vanderkamp/enlighten2/")
+        webbrowser.open_new("https://enlighten2.github.io")
 
     def run_prep(self):
 
