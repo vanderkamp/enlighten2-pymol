@@ -212,6 +212,7 @@ class EnlightenController(PyQtController):
         import pymol
         pymol.cmd.load(top, name)
         pymol.cmd.load(rst, name, format=format)
+        pymol.cmd.dss()
 
     @staticmethod
     def write_object_to_pdb(object_name, filename):
