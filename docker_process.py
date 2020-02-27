@@ -30,7 +30,7 @@ def docker_command(working_dir, command, name):
     if os.name == 'nt':
         if os.environ.get('DOCKER_TOOLBOX_INSTALL_PATH'):
             working_dir = parse_win_path(working_dir)
-        return "docker run --name {name} --rm -v {dir}:/tmp " \
+        return "docker run --name {name} --rm -v \"{dir}\":/tmp " \
                "kzinovjev/enlighten2 " \
                "/bin/bash -lc \"{command}\"".format(name=name,
                                                     dir=working_dir,
