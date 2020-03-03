@@ -35,7 +35,7 @@ def docker_command(working_dir, command, name):
                "/bin/bash -lc \"{command}\"".format(name=name,
                                                     dir=working_dir,
                                                     command=command)
-    return "docker run --name {name} --rm -v {dir}:/tmp -u {uid}:{gid} " \
+    return "docker run --name {name} --rm -v \"{dir}\":/tmp -u {uid}:{gid} " \
            "kzinovjev/enlighten2 " \
            "/bin/bash -lc \"{command}\"".format(name=name,
                                                 dir=working_dir,
