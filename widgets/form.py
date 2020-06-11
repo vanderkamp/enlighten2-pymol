@@ -31,8 +31,8 @@ class Form:
             return
         self.pristine = False
         errors = self.get_errors()
-        print(errors)
         if len(errors):
+            print(errors)
             QtWidgets.QMessageBox.critical(self.button.parent(), "Error",
                                            self.error_message(errors))
             self.button.setEnabled(False)
