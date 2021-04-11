@@ -2,6 +2,7 @@ import os
 from qt_wrapper import QtCore
 import random
 import string
+import contextlib
 
 
 class DockerProcess(QtCore.QProcess):
@@ -11,9 +12,9 @@ class DockerProcess(QtCore.QProcess):
         self._name = get_random_name()
 
     def start(self, working_dir, command):
-        super(DockerProcess, self).start(
-            docker_command(working_dir, command, self._name)
-        )
+        with fixed_macos_path():
+            full_command = docker_command(working_dir, command, self._name)
+            super(DockerProcess, self).start(full_command)
 
     def terminate(self):
         kill_process = QtCore.QProcess()
@@ -48,3 +49,14 @@ def parse_win_path(path):
     drive = path[0]
     return path.replace('{}:/'.format(drive),
                         '//{}/'.format(drive.lower()))
+
+
+@contextlib.contextmanager
+def fixed_macos_path():
+    if os.name == 'nt':
+        yield
+        return
+    path = os.environ['PATH']
+    os.environ['PATH'] = path + ':/usr/local/bin:/opt/local/bin'
+    yield
+    os.environ['PATH'] = path
