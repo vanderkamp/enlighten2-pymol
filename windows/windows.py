@@ -34,12 +34,18 @@ class ManagedWindow(QtWidgets.QWidget):
         raise NotImplementedError
 
     def toggle_group(self, widget_names, state):
-        for name in widget_names:
-            widget = getattr(self, name)
+        for widget in self._get_group(widget_names):
             if state:
                 widget.show()
             else:
                 widget.hide()
+
+    def set_group_enabled(self, widget_names, state):
+        for widget in self._get_group(widget_names):
+            widget.setEnabled(state)
+
+    def _get_group(self, widget_names):
+        return (getattr(self, name) for name in widget_names)
 
 
 def move_to_center(window):
