@@ -1,8 +1,9 @@
-from qt_wrapper import QtWidgets, QtCore, WITH_PYMOL
+from qt_wrapper import QtWidgets, WITH_PYMOL
 from .preparation import PreparationTab
 from .preparation_advanced import PreparationAdvancedWindow
 from .dynamics import DynamicsTab
-from .qmmm import QmmmTab
+if WITH_PYMOL:
+    from .qmmm import QmmmTab
 from .windows import move_to_center
 
 
