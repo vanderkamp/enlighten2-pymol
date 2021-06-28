@@ -182,7 +182,7 @@
      <property name="title">
       <string>QM region</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
+     <layout class="QGridLayout" name="qmGridLayout">
       <property name="leftMargin">
        <number>6</number>
       </property>
@@ -193,7 +193,7 @@
        <number>6</number>
       </property>
       <item row="0" column="0">
-       <widget class="QPushButton" name="advancedOptionsButton">
+       <widget class="QPushButton" name="getSelectionButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>
