@@ -10,7 +10,6 @@ class MainWindow(QtWidgets.QTabWidget):
 
     def __init__(self, window_manager):
         super(MainWindow, self).__init__()
-        self.setWindowFlag(QtCore.Qt.Tool)
         self.window_manager = window_manager
         self.setWindowTitle('Enlighten2')
         self.addTab(PreparationTab('prep', window_manager), 'Preparation')
