@@ -57,6 +57,10 @@ class PyQtController(Controller):
     def bind_atom_selector(self, key, atomSelector):
         self.bind_lineEdit(key, atomSelector.lineEdit)
 
+    def bind_qmmm_objects_selector(self, key1, key2, qmmmObjectsSelector):
+        self.bind_combo_box(key1, qmmmObjectsSelector.object1Combo)
+        self.bind_combo_box(key2, qmmmObjectsSelector.object2Combo)
+
     @classmethod
     def lineEdit_text_updater(cls, lineEdit):
         return lambda value: cls._set_text_if_changed(lineEdit, value)
