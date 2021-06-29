@@ -45,10 +45,12 @@ class QmmmObjectsSelector(QtWidgets.QWidget):
 
         self.object2Combo.clear()
         if len(valid_second_objects) == 0:
-            error = "No compatible objects found"
-            QtWidgets.QMessageBox.critical(self, "Error", error)
+            self.object2Combo.hide()
+            self.object2ErrorLabel.show()
             return
 
+        self.object2ErrorLabel.hide()
+        self.object2Combo.show()
         self.object2Combo.addItems(valid_second_objects)
         self.object2Combo.setCurrentIndex(len(valid_second_objects) - 1)
 
