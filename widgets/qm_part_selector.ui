@@ -35,19 +35,6 @@
     </widget>
    </item>
    <item>
-    <widget class="ElidedLabel" name="resInfoLabel">
-     <property name="minimumSize">
-      <size>
-       <width>161</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Residues: 0</string>
-     </property>
-    </widget>
-   </item>
-   <item>
     <widget class="ElidedLabel" name="atomsInfoLabel">
      <property name="minimumSize">
       <size>
@@ -57,6 +44,19 @@
      </property>
      <property name="text">
       <string>Atoms: 0</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="ElidedLabel" name="resInfoLabel">
+     <property name="minimumSize">
+      <size>
+       <width>161</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Residues: 0</string>
      </property>
     </widget>
    </item>
