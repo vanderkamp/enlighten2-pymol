@@ -15,6 +15,7 @@ class QmmmObjectsSelector(QtWidgets.QWidget):
         uic.loadUi(ui_file, self)
         self.setup_objects_list()
         self.neb = True
+        self.object1Combo.currentTextChanged.connect(self.on_first_changed)
 
     def setup_objects_list(self):
         objects = pymol.cmd.get_names('objects')
@@ -26,3 +27,33 @@ class QmmmObjectsSelector(QtWidgets.QWidget):
         self.neb = value
         self.object2Label.setEnabled(value)
         self.object2Combo.setEnabled(value)
+
+        if not value:
+            self.object2Combo.clear()
+        else:
+            self.on_first_changed(self.object1Combo.currentText())
+
+    def on_first_changed(self, name):
+        if not self.neb:
+            return
+
+        hash1 = self._obj_hash(name)
+        valid_second_objects = []
+        for second_name in pymol.cmd.get_names('objects'):
+            if second_name != name and self._obj_hash(second_name) == hash1:
+                valid_second_objects.append(second_name)
+
+        self.object2Combo.clear()
+        if len(valid_second_objects) == 0:
+            error = "No compatible objects found"
+            QtWidgets.QMessageBox.critical(self, "Error", error)
+            return
+
+        self.object2Combo.addItems(valid_second_objects)
+        self.object2Combo.setCurrentIndex(len(valid_second_objects) - 1)
+
+    @staticmethod
+    def _obj_hash(name):
+        space = {'names': []}
+        pymol.cmd.iterate(name, 'names.append(name)', space=space)
+        return ':'.join(space['names'])
