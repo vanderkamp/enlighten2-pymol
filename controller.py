@@ -82,12 +82,8 @@ class EnlightenController(PyQtController):
 
         system_path = os.path.join(self.state['working_dir'],
                                    self.state['prep.system_name'])
-        if os.path.isdir(system_path):
-            message = "Folder {} exists. Remove?".format(system_path)
-            if self.dialog(message):
-                shutil.rmtree(system_path)
-            else:
-                return
+        if not self.remove_if_exists(system_path):
+            return
 
         if self.state.get('prep.use_object'):
             pdb = self.state['prep.object'] + '.pdb'
@@ -113,17 +109,6 @@ class EnlightenController(PyQtController):
                              self.state['working_dir'],
                              prep_command,
                              self.after_prep)
-
-    @staticmethod
-    def dialog(message):
-        dialog = QtWidgets.QMessageBox()
-        dialog.setIcon(QtWidgets.QMessageBox.Question)
-        dialog.setWindowTitle("Warning")
-        dialog.setText(message)
-        dialog.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-        dialog.setDefaultButton(QtWidgets.QMessageBox.No)
-        dialog.setEscapeButton(QtWidgets.QMessageBox.No)
-        return dialog.exec_() == QtWidgets.QMessageBox.Yes
 
     def after_prep(self):
         if self.state.get('prep.relax'):
@@ -189,6 +174,26 @@ class EnlightenController(PyQtController):
         self.load_system(self.state['working_dir'],
                          self.state['dynam.system_name'],
                          self.state['dynam.tag'])
+
+    @classmethod
+    def remove_if_exists(cls, path):
+        if os.path.isdir(path):
+            message = "Folder {} exists. Remove?".format(path)
+            if not cls.dialog(message):
+                return False
+            shutil.rmtree(path)
+        return True
+
+    @staticmethod
+    def dialog(message):
+        dialog = QtWidgets.QMessageBox()
+        dialog.setIcon(QtWidgets.QMessageBox.Question)
+        dialog.setWindowTitle("Warning")
+        dialog.setText(message)
+        dialog.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        dialog.setDefaultButton(QtWidgets.QMessageBox.No)
+        dialog.setEscapeButton(QtWidgets.QMessageBox.No)
+        return dialog.exec_() == QtWidgets.QMessageBox.Yes
 
     @classmethod
     def load_system(cls, working_dir, system_name, tag):
