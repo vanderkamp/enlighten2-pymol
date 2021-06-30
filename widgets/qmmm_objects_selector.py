@@ -55,6 +55,13 @@ class QmmmObjectsSelector(QtWidgets.QWidget):
         self.object2Combo.addItems(valid_second_objects)
         self.object2Combo.setCurrentIndex(len(valid_second_objects) - 1)
 
+    def is_valid(self):
+        has_first = self.object1Combo.currentText() != ''
+        has_second = self.object2Combo.currentText() != ''
+        if not self.neb:
+            return has_first
+        return has_first and has_second
+
     @staticmethod
     def _obj_hash(name):
         space = {'names': []}

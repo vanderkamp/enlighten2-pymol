@@ -35,6 +35,10 @@ class QmmmTab(ManagedWindow):
                                               'qmmm.object2',
                                               self.objectsSelector)
 
+        self.update_run_button()
+        object1Combo.currentTextChanged.connect(self.update_run_button)
+        self.nebRadio.toggled.connect(self.update_run_button)
+
         self.qmPartSelector.set_object(object1Combo.currentText())
         object1Combo.currentTextChanged.connect(self.qmPartSelector.set_object)
         self.qmPartSelector.selectionChanged.connect(
@@ -44,3 +48,6 @@ class QmmmTab(ManagedWindow):
         controller.bind_lineEdit('qmmm.charge', self.ligandChargeEdit)
         controller.bind_lineEdit('qmmm.job_name', self.jobNameEdit)
         controller.bind_file_selector('working_dir', self.workingDirSelector)
+
+    def update_run_button(self, *args):
+        self.runButton.setEnabled(self.objectsSelector.is_valid())
