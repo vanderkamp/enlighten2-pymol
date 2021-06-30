@@ -25,7 +25,11 @@ class QmmmTab(ManagedWindow):
         self.nebRadio.toggled.connect(self.objectsSelector.set_neb)
 
     def bind(self, controller):
+        controller.update('qmmm.neb', False)
+        self.nebRadio.toggled.connect(controller.updater('qmmm.neb'))
+
         object1Combo = self.objectsSelector.object1Combo
+
         controller.update('qmmm.object1', object1Combo.currentText())
         controller.bind_qmmm_objects_selector('qmmm.object1',
                                               'qmmm.object2',
@@ -36,3 +40,7 @@ class QmmmTab(ManagedWindow):
         self.qmPartSelector.selectionChanged.connect(
             controller.updater('qmmm.selection')
         )
+
+        controller.bind_lineEdit('qmmm.charge', self.ligandChargeEdit)
+        controller.bind_lineEdit('qmmm.job_name', self.jobNameEdit)
+        controller.bind_file_selector('working_dir', self.workingDirSelector)
