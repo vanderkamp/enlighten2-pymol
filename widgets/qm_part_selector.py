@@ -22,6 +22,7 @@ class QmPartSelector(QtWidgets.QWidget):
         if self.object != name:
             self.object = name
             self.selection = []
+            self.selectionChanged.emit(self.selection)
             self.reset_labels()
 
     def reset_labels(self):
@@ -62,6 +63,9 @@ class QmPartSelector(QtWidgets.QWidget):
         text = 'Residues: {n} {res_text}'.format(n=len(res),
                                                  res_text=res_text)
         self.resInfoLabel.setText(text)
+
+    def has_selection(self):
+        return len(self.selection) > 0
 
     def _error(self, error):
         QtWidgets.QMessageBox.critical(self, "Error", error)

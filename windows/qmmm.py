@@ -44,10 +44,13 @@ class QmmmTab(ManagedWindow):
         self.qmPartSelector.selectionChanged.connect(
             controller.updater('qmmm.selection')
         )
+        self.qmPartSelector.selectionChanged.connect(self.update_run_button)
 
         controller.bind_lineEdit('qmmm.charge', self.ligandChargeEdit)
         controller.bind_lineEdit('qmmm.job_name', self.jobNameEdit)
         controller.bind_file_selector('working_dir', self.workingDirSelector)
 
     def update_run_button(self, *args):
-        self.runButton.setEnabled(self.objectsSelector.is_valid())
+        objects_valid = self.objectsSelector.is_valid()
+        has_selection = self.qmPartSelector.has_selection()
+        self.runButton.setEnabled(objects_valid and has_selection)
