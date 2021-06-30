@@ -87,10 +87,7 @@ class EnlightenController(PyQtController):
 
         if self.state.get('prep.use_object'):
             pdb = self.state['prep.object'] + '.pdb'
-            self.write_object_to_pdb(
-                self.state['prep.object'],
-                os.path.join(self.state['working_dir'], pdb)
-            )
+            self.write_object_to_pdb(self.state['prep.object'])
         else:
             pdb = os.path.basename(self.state['prep.pdb'])
             os.system("cp {} {}".format(self.state['prep.pdb'],
@@ -175,6 +172,35 @@ class EnlightenController(PyQtController):
                          self.state['dynam.system_name'],
                          self.state['dynam.tag'])
 
+    def run_qmmm(self):
+        job_path = os.path.join(self.state['working_dir'],
+                                self.state['qmmm.job_name'])
+        if not self.remove_if_exists(job_path):
+            return
+
+        self.write_object_to_pdb(self.state['qmmm.object1'])
+
+        if self.state['qmmm.neb']:
+            self.write_object_to_pdb(self.state['qmmm.object2'])
+
+        qm_region = [i - 1 for i in self.state['qmmm.qm_region']]  # 0-indexed
+        params = {"qm_region": qm_region,
+                  "charge": self.state['qmmm.charge']}
+
+        params_path = os.path.join(self.state['working_dir'], 'params.json')
+        with open(params_path, 'w') as f:
+            json.dump(params, f)
+
+    def write_object_to_pdb(self, object_name):
+        import pymol
+
+        filename = os.path.join(self.state['working_dir'], object_name + '.pdb')
+        # Keep original value to cause no side effects
+        pdb_use_ter_records = pymol.cmd.get('pdb_use_ter_records')
+        pymol.cmd.set('pdb_use_ter_records', 'off')
+        pymol.cmd.save(filename, '({})'.format(object_name))
+        pymol.cmd.set('pdb_use_ter_records', pdb_use_ter_records)
+
     @classmethod
     def remove_if_exists(cls, path):
         if os.path.isdir(path):
@@ -222,15 +248,6 @@ class EnlightenController(PyQtController):
         pymol.cmd.load(top, name)
         pymol.cmd.load(rst, name, format=format)
         pymol.cmd.dss()
-
-    @staticmethod
-    def write_object_to_pdb(object_name, filename):
-        import pymol
-        # Keep original value to cause no side effects
-        pdb_use_ter_records = pymol.cmd.get('pdb_use_ter_records')
-        pymol.cmd.set('pdb_use_ter_records', 'off')
-        pymol.cmd.save(filename, '({})'.format(object_name))
-        pymol.cmd.set('pdb_use_ter_records', pdb_use_ter_records)
 
     @classmethod
     def run_in_terminal(cls, title, working_dir, command, on_finished):
