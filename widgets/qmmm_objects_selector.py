@@ -16,6 +16,7 @@ class QmmmObjectsSelector(QtWidgets.QWidget):
         self.setup_objects_list()
         self.neb = True
         self.object1Combo.currentTextChanged.connect(self.on_first_changed)
+        self.refreshObjectsButton.clicked.connect(self.setup_objects_list)
 
     def setup_objects_list(self):
         objects = pymol.cmd.get_names('objects')
