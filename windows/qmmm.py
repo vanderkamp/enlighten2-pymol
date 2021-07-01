@@ -2,6 +2,7 @@ from .windows import ManagedWindow
 from qt_wrapper import QtGui
 import os
 from validators import NotEmptyValidator, IntegerValidator
+from widgets.form import Form
 
 
 class QmmmTab(ManagedWindow):
@@ -42,13 +43,19 @@ class QmmmTab(ManagedWindow):
         self.qmPartSelector.set_object(object1Combo.currentText())
         object1Combo.currentTextChanged.connect(self.qmPartSelector.set_object)
         self.qmPartSelector.selectionChanged.connect(
-            controller.updater('qmmm.selection')
+            controller.updater('qmmm.qm_region')
         )
         self.qmPartSelector.selectionChanged.connect(self.update_run_button)
 
         controller.bind_lineEdit('qmmm.charge', self.ligandChargeEdit)
         controller.bind_lineEdit('qmmm.job_name', self.jobNameEdit)
         controller.bind_file_selector('working_dir', self.workingDirSelector)
+
+        self.form = Form(fields=(self.ligandChargeEdit,
+                                 self.workingDirSelector.lineEdit,
+                                 self.jobNameEdit),
+                         button=self.runButton,
+                         submit_callback=controller.run_qmmm)
 
     def update_run_button(self, *args):
         objects_valid = self.objectsSelector.is_valid()
