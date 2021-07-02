@@ -87,7 +87,8 @@ class EnlightenController(PyQtController):
 
         if self.state.get('prep.use_object'):
             pdb = self.state['prep.object'] + '.pdb'
-            self.write_object_to_pdb(self.state['prep.object'])
+            if not self.write_object_to_pdb(self.state['prep.object']):
+                return
         else:
             pdb = os.path.basename(self.state['prep.pdb'])
             os.system("cp {} {}".format(self.state['prep.pdb'],
@@ -178,10 +179,12 @@ class EnlightenController(PyQtController):
         if not self.remove_if_exists(job_path):
             return
 
-        self.write_object_to_pdb(self.state['qmmm.object1'])
+        if not self.write_object_to_pdb(self.state['qmmm.object1']):
+            return
 
         if self.state['qmmm.neb']:
-            self.write_object_to_pdb(self.state['qmmm.object2'])
+            if not self.write_object_to_pdb(self.state['qmmm.object2']):
+                return
 
         qm_region = [i - 1 for i in self.state['qmmm.qm_region']]  # 0-indexed
         params = {"qm_region": qm_region,
@@ -195,11 +198,18 @@ class EnlightenController(PyQtController):
         import pymol
 
         filename = os.path.join(self.state['working_dir'], object_name + '.pdb')
+
+        if os.path.isfile(filename):
+            message = "File {} exists. Remove?".format(filename)
+            if not self.dialog(message):
+                return False
+
         # Keep original value to cause no side effects
         pdb_use_ter_records = pymol.cmd.get('pdb_use_ter_records')
         pymol.cmd.set('pdb_use_ter_records', 'off')
         pymol.cmd.save(filename, '({})'.format(object_name))
         pymol.cmd.set('pdb_use_ter_records', pdb_use_ter_records)
+        return True
 
     @classmethod
     def remove_if_exists(cls, path):
