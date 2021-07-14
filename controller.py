@@ -188,7 +188,7 @@ class EnlightenController(PyQtController):
 
         qm_region = [i - 1 for i in self.state['qmmm.qm_region']]  # 0-indexed
         params = {"qm_region": qm_region,
-                  "charge": self.state['qmmm.charge']}
+                  "qm_charge": self.state['qmmm.charge']}
 
         params_path = os.path.join(self.state['working_dir'], 'params.json')
         with open(params_path, 'w') as f:
