@@ -187,12 +187,26 @@ class EnlightenController(PyQtController):
                 return
 
         qm_region = [i - 1 for i in self.state['qmmm.qm_region']]  # 0-indexed
+        active_atoms = [i - 1 for i in self.get_qmmm_active_atoms()]  # 0-indexed
         params = {"qm_region": qm_region,
+                  "active_atoms": active_atoms,
                   "qm_charge": self.state['qmmm.charge']}
 
         params_path = os.path.join(self.state['working_dir'], 'params.json')
         with open(params_path, 'w') as f:
             json.dump(params, f)
+
+    def get_qmmm_active_atoms(self, distance=8):
+        import pymol
+
+        selection = '{name} within {distance} of {name} and {region}'.format(
+            name=self.state['qmmm.object1'],
+            distance=distance,
+            region='index ' + '+'.join(map(str, self.state['qmmm.qm_region']))
+        )
+        space = {'active_atoms': []}
+        pymol.cmd.iterate(selection, 'active_atoms.append(index)', space=space)
+        return space['active_atoms']
 
     def write_object_to_pdb(self, object_name):
         import pymol
