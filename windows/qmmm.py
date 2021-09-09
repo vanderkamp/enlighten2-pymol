@@ -50,6 +50,7 @@ class QmmmTab(ManagedWindow):
         controller.bind_lineEdit('qmmm.charge', self.ligandChargeEdit)
         controller.bind_lineEdit('qmmm.job_name', self.jobNameEdit)
         controller.bind_file_selector('working_dir', self.workingDirSelector)
+        controller.bind_file_selector('qmmm.parm', self.parmSelector)
 
         self.form = Form(fields=(self.ligandChargeEdit,
                                  self.workingDirSelector.lineEdit,

@@ -196,6 +196,10 @@ class EnlightenController(PyQtController):
         with open(params_path, 'w') as f:
             json.dump(params, f)
 
+        parm_name = os.path.basename(self.state['qmmm.parm'])
+        parm_path = os.path.join(self.state['working_dir'], parm_name)
+        shutil.copy(self.state['qmmm.parm'], parm_path)
+
     def get_qmmm_active_atoms(self, distance=8):
         import pymol
 
