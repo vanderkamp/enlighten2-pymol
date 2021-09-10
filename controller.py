@@ -205,6 +205,27 @@ class EnlightenController(PyQtController):
         parm_path = os.path.join(job_path, parm_name)
         shutil.copy(self.state['qmmm.parm'], parm_path)
 
+        react_pdb = self.state['qmmm.object1'] + '.pdb'
+        if self.state['qmmm.neb']:
+            title = "QM/MM NEB"
+            prod_pdb = self.state['qmmm.object2'] + '.pdb'
+            qmmm_command = 'qmmm.py neb {params} {parm} {react} -p {prod}'.format(
+                params='params.json',
+                parm=parm_name,
+                react=react_pdb,
+                prod=prod_pdb
+            )
+        else:
+            title = "QM/MM Optimization"
+            qmmm_command = 'qmmm.py opt {params} {parm} {react}'.format(
+                params='params.json',
+                parm=parm_name,
+                react=react_pdb
+            )
+
+        self.run_in_terminal(title, job_path, 'kzinovjev/py-chemshell-wrapper',
+                             qmmm_command, lambda: None)
+
     def get_qmmm_active_atoms(self, distance=8):
         import pymol
 
