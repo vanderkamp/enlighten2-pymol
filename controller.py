@@ -181,13 +181,13 @@ class EnlightenController(PyQtController):
                                 self.state['qmmm.job_name'])
         if not self.remove_if_exists(job_path):
             return
+        os.makedirs(job_path)
 
-        if not self.write_object_to_pdb(self.state['working_dir'],
-                                        self.state['qmmm.object1']):
+        if not self.write_object_to_pdb(job_path, self.state['qmmm.object1']):
             return
 
         if self.state['qmmm.neb']:
-            if not self.write_object_to_pdb(self.state['working_dir'],
+            if not self.write_object_to_pdb(job_path,
                                             self.state['qmmm.object2']):
                 return
 
@@ -197,12 +197,12 @@ class EnlightenController(PyQtController):
                   "active_atoms": active_atoms,
                   "qm_charge": self.state['qmmm.charge']}
 
-        params_path = os.path.join(self.state['working_dir'], 'params.json')
+        params_path = os.path.join(job_path, 'params.json')
         with open(params_path, 'w') as f:
             json.dump(params, f)
 
         parm_name = os.path.basename(self.state['qmmm.parm'])
-        parm_path = os.path.join(self.state['working_dir'], parm_name)
+        parm_path = os.path.join(job_path, parm_name)
         shutil.copy(self.state['qmmm.parm'], parm_path)
 
     def get_qmmm_active_atoms(self, distance=8):
