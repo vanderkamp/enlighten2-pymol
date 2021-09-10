@@ -87,7 +87,8 @@ class EnlightenController(PyQtController):
 
         if self.state.get('prep.use_object'):
             pdb = self.state['prep.object'] + '.pdb'
-            if not self.write_object_to_pdb(self.state['prep.object']):
+            if not self.write_object_to_pdb(self.state['working_dir'],
+                                            self.state['prep.object']):
                 return
         else:
             pdb = os.path.basename(self.state['prep.pdb'])
@@ -181,11 +182,13 @@ class EnlightenController(PyQtController):
         if not self.remove_if_exists(job_path):
             return
 
-        if not self.write_object_to_pdb(self.state['qmmm.object1']):
+        if not self.write_object_to_pdb(self.state['working_dir'],
+                                        self.state['qmmm.object1']):
             return
 
         if self.state['qmmm.neb']:
-            if not self.write_object_to_pdb(self.state['qmmm.object2']):
+            if not self.write_object_to_pdb(self.state['working_dir'],
+                                            self.state['qmmm.object2']):
                 return
 
         qm_region = [i - 1 for i in self.state['qmmm.qm_region']]  # 0-indexed
@@ -214,10 +217,10 @@ class EnlightenController(PyQtController):
         pymol.cmd.iterate(selection, 'active_atoms.append(index)', space=space)
         return space['active_atoms']
 
-    def write_object_to_pdb(self, object_name):
+    def write_object_to_pdb(self, path, object_name):
         import pymol
 
-        filename = os.path.join(self.state['working_dir'], object_name + '.pdb')
+        filename = os.path.join(path, object_name + '.pdb')
 
         if os.path.isfile(filename):
             message = "File {} exists. Remove?".format(filename)
