@@ -11,9 +11,10 @@ class DockerProcess(QtCore.QProcess):
         super(DockerProcess, self).__init__()
         self._name = get_random_name()
 
-    def start(self, working_dir, command):
+    def start(self, working_dir, image, command):
         with fixed_macos_path():
-            full_command = docker_command(working_dir, command, self._name)
+            full_command = docker_command(working_dir, image, command,
+                                          self._name)
             super(DockerProcess, self).start(full_command)
 
     def terminate(self):
@@ -27,19 +28,21 @@ def get_random_name():
     return ''.join(random.choice(string.ascii_lowercase) for _ in range(10))
 
 
-def docker_command(working_dir, command, name):
+def docker_command(working_dir, image, command, name):
     if os.name == 'nt':
         if os.environ.get('DOCKER_TOOLBOX_INSTALL_PATH'):
             working_dir = parse_win_path(working_dir)
         return "docker run --name {name} --rm -v \"{dir}\":/tmp " \
-               "kzinovjev/enlighten2 " \
+               "{image} " \
                "/bin/bash -lc \"{command}\"".format(name=name,
                                                     dir=working_dir,
+                                                    image=image,
                                                     command=command)
     return "docker run --name {name} --rm -v \"{dir}\":/tmp -u {uid}:{gid} " \
-           "kzinovjev/enlighten2 " \
+           "{image} " \
            "/bin/bash -lc \"{command}\"".format(name=name,
                                                 dir=working_dir,
+                                                image=image,
                                                 uid=os.geteuid(),
                                                 gid=os.getegid(),
                                                 command=command)

@@ -105,6 +105,7 @@ class EnlightenController(PyQtController):
         )
         self.run_in_terminal("Prep",
                              self.state['working_dir'],
+                             'kzinovjev/enlighten2',
                              prep_command,
                              self.after_prep)
 
@@ -153,6 +154,7 @@ class EnlightenController(PyQtController):
         )
         self.run_in_terminal(title,
                              self.state['working_dir'],
+                             'kzinovjev/enlighten2',
                              dynam_command,
                              self.after_dynam)
 
@@ -278,10 +280,10 @@ class EnlightenController(PyQtController):
         pymol.cmd.dss()
 
     @classmethod
-    def run_in_terminal(cls, title, working_dir, command, on_finished):
+    def run_in_terminal(cls, title, working_dir, image, command, on_finished):
         process = DockerProcess()
         terminal = TerminalWindow(process, title)
-        process.start(working_dir, command)
+        process.start(working_dir, image, command)
 
         def finished_callback():
             if not process.exitCode():
