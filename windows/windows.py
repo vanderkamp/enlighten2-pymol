@@ -45,5 +45,5 @@ class ManagedWindow(QtWidgets.QWidget):
 def move_to_center(window):
     center = QtWidgets.QDesktopWidget().availableGeometry().center()
     window_size = window.size()
-    window.move(center.x() - window_size.width() / 2,
-                center.y() - window_size.height() / 2)
+    window.move(center.x() - window_size.width() // 2,
+                center.y() - window_size.height() // 2)
